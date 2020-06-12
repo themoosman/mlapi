@@ -1,19 +1,21 @@
 .DS_Store
 db/db.json
+/db/db.json
 test/detect.sh
 build/
 dist/
-images/*.jpg
+**/images/*.jpg
 *.egg-info/
 *.egg
 *.py[cod]
 **/__pycache__/
 *.so
 *~
-known_faces/*
-unknown_faces/*
+/known_faces/*
+/unknown_faces/*
 !known_faces/README.md
-models/
+/models/
 # due to using tox and pytest
 .tox
 .cache
+.pyc
