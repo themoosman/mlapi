@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  mlapi:
+    container_name: mlapi
+    restart: always
+    build: ./mlapi
+    ports:
+      - "5000:5000"
+    command: gunicorn mlapi:app
+
+  nginx:
+    container_name: nginx
+    restart: always
+    build: ./nginx
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mlapi

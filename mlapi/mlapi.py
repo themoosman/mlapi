@@ -9,7 +9,6 @@ from werkzeug.exceptions import HTTPException, default_exceptions
 from werkzeug.datastructures import FileStorage
 from functools import wraps
 from mimetypes import guess_extension
-#from collections import deque 
 
 import os
 
@@ -158,14 +157,16 @@ class Health(Resource):
         return response
 
 # main init
-
 ap = argparse.ArgumentParser()
-ap.add_argument('-c', '--config', required=True, help='config file with path')
+ap.add_argument('-c', '--config', required=False, nargs='?', type=str, default='./mlapiconfig.ini', help='config file with path')
 args, u = ap.parse_known_args()
 args = vars(args)
 utils.process_config(args)
 
 app = Flask(__name__)
+
+g.log.info ('--------| mlapi version: {} |--------'.format(__version__))
+#g.log.info ('Starting server with max: {} processes'.format(g.config['processes']))
 
 def get_http_exception_handler(app):
     """Overrides the default http exception handler to return JSON."""
@@ -189,6 +190,8 @@ app.config['PROPAGATE_EXCEPTIONS'] = True
 app.debug = False
 jwt = JWTManager(app)
 
+
+
 db = Database.Database()
 
 api.add_resource(Login, '/login')
@@ -202,14 +205,3 @@ import modules.object as ObjectDetect
 
 face_obj = FaceRecog.Face()
 od_obj = ObjectDetect.Object()
-#q = deque()
-
-
-
-
-if __name__ == '__main__':
-    g.log.info ('--------| mlapi version:{} |--------'.format(__version__))
-    g.log.info ('Starting server with max:{} processes'.format
-    (g.config['processes']))
-    #app.run(host='0.0.0.0', port=5000, threaded=True)
-    app.run(host='0.0.0.0', port=g.config['port'], threaded=False, processes=g.config['processes'])
