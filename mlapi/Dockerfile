@@ -56,7 +56,7 @@ chmod 777 ${APP_DIR}
 WORKDIR ${APP_DIR}
 
 #Add all the Python source
-ADD . / .
+ADD ./ .
 
 #Adding this is a seperate RUN, so adding new code won't require another download of these files.
 RUN mkdir -p /app/models/yolov3 && \
